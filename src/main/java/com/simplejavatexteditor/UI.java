@@ -35,7 +35,7 @@
  * @Modifiedby Giorgos Pasentsis
  * @modemail gpasents@gmail.com
  */
-package simplejavatexteditor;
+package com.simplejavatexteditor;
 
 import javax.swing.*;
 import java.awt.*;

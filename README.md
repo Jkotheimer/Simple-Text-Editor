@@ -48,9 +48,9 @@
 
 Download the Jar file and double click to run
 
-Or run `java -jar SimpleJavaTextEditor.jar` from the command line
+Or run `./SimpleJavaTextEditor` from the command line
 
-You can also generate easily a new jar file with the following command when you are in *src/* directory `jar cmvf ../manifest.mf ../SimpleJavaTextEditor.jar simplejavatexteditor/*.class`
+You can also generate easily a new jar file with the following command when you are in root directory `mvn clean package`
 
 
 ### Important

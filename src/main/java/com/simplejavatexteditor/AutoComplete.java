@@ -1,4 +1,4 @@
-package simplejavatexteditor;
+package com.simplejavatexteditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

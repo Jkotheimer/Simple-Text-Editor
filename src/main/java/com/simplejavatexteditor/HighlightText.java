@@ -1,4 +1,4 @@
-package simplejavatexteditor;
+package com.simplejavatexteditor;
 
 import javax.swing.text.*;
 import java.awt.*;
