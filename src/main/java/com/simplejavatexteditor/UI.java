@@ -140,10 +140,6 @@ public class UI extends JFrame implements ActionListener {
                 setTitle("Untitled | " + SimpleJavaTextEditor.NAME + "     [ Length: " + textArea.getText().length()
                         + "    Lines: " + (textArea.getText() + "|").split("\n").length
                         + "    Words: " + textArea.getText().trim().split("\\s+").length + " ]");
-            }
-
-            @Override
-            public void keyPressed(KeyEvent ke) {
                 edit = true;
                 languageHighlighter.highLight(textArea, kw.getCppKeywords());
                 languageHighlighter.highLight(textArea, kw.getJavaKeywords());
