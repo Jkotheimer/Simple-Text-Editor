@@ -3,6 +3,7 @@ package com.simplejavatexteditor;
 import javax.swing.text.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.*;
 
 public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
 
@@ -23,12 +24,16 @@ public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
             String text = doc.getText(0, doc.getLength());
             for (int i = 0; i < pattern.length; i++) {
                 int pos = 0;
-
-                while ((pos = text.indexOf(pattern[i], pos)) >= 0) {
+                String patternStr = "\\b" + pattern[i] + "\\b";
+                Matcher matcher = Pattern.compile(patternStr).matcher(text);
+                while(pos < text.length() && matcher.find(pos)) {
+		    pos = matcher.start();
+		    System.out.println("FOUND " + pattern[i] + " AT " + pos);
 		    doc.setCharacterAttributes(pos, pattern[i].length(), attrs, false);
 		    pos += pattern[i].length();
                 }
             }
+	    System.out.println();
         } catch (BadLocationException e) {}
 
     }
