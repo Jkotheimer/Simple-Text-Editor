@@ -18,11 +18,11 @@
 
 package com.simplejavatexteditor;
 
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 public class FEdit {
 
-    public static void clear(JTextArea textArea) {
+    public static void clear(JTextPane textArea) {
         textArea.setText("");
     }
 

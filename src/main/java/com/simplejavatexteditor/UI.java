@@ -38,6 +38,7 @@
 package com.simplejavatexteditor;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -60,7 +61,7 @@ public class UI extends JFrame implements ActionListener {
 
     private final String[] dragDropExtensionFilter = {".txt", ".dat", ".log", ".xml", ".mf", ".html"};
     private static long serialVersionUID = 1L;
-    private final JTextArea textArea;
+    private final JTextPane textArea;
     private final JMenuBar menuBar;
     private final JComboBox fontSize, fontType;
     private final JMenu menuFile, menuEdit, menuFind, menuAbout;
@@ -96,7 +97,7 @@ public class UI extends JFrame implements ActionListener {
     private final ImageIcon aboutIcon = new ImageIcon("icons/about.png");
 
     private SupportedKeywords kw = new SupportedKeywords();
-    private HighlightText languageHighlighter = new HighlightText(Color.GRAY);
+    private HighlightText languageHighlighter = new HighlightText(Color.RED);
     AutoComplete autocomplete;
     private boolean hasListener = false;
     private boolean edit = false;
@@ -121,15 +122,14 @@ public class UI extends JFrame implements ActionListener {
         // center the frame on the monitor
         setLocationRelativeTo(null);
 
-        // Set a default font for the TextArea
-        textArea = new JTextArea("", 0, 0);
+        // Set a default font and tab size for the TextArea
+	DefaultStyledDocument document = new DefaultStyledDocument();
+        textArea = new JTextPane(document);
         textArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-        textArea.setTabSize(2);
-        textArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-        textArea.setTabSize(2);
+	document.putProperty(PlainDocument.tabSizeAttribute, new Integer(2));
 
         /* SETTING BY DEFAULT WORD WRAP ENABLED OR TRUE */
-        textArea.setLineWrap(true);
+        //textArea.setLineWrap(true);
         DropTarget dropTarget = new DropTarget(textArea, dropTargetListener);
 
         // Set an higlighter to the JTextArea
@@ -147,7 +147,7 @@ public class UI extends JFrame implements ActionListener {
         });
 
         JScrollPane scrollPane = new JScrollPane(textArea);
-        textArea.setWrapStyleWord(true);
+        //textArea.setWrapStyleWord(true);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         getContentPane().setLayout(new BorderLayout()); // the BorderLayout bit makes it fill it automatically
         JPanel panel = new JPanel(new BorderLayout());
@@ -181,8 +181,7 @@ public class UI extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
 
         // Set Actions:
-        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A),
-                textArea);
+        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A), textArea);
 
         this.setJMenuBar(menuBar);
 
@@ -247,20 +246,20 @@ public class UI extends JFrame implements ActionListener {
 
         /* CODE FOR WORD WRAP OPERATION
          * BY DEFAULT WORD WRAPPING IS ENABLED.
-         */
+         *
         wordWrap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 // If wrapping is false then after clicking on menuitem the word wrapping will be enabled
                 if (textArea.getLineWrap() == false) {
-                    /* Setting word wrapping to true */
+                    /* Setting word wrapping to true *
                     textArea.setLineWrap(true);
                 } else {
                     // else  if wrapping is true then after clicking on menuitem the word wrapping will be disabled
-                    /* Setting word wrapping to false */
+                    /* Setting word wrapping to false *
                     textArea.setLineWrap(false);
                 }
             }
-        });
+        });*/
 
         // Copy Text
         copy = new JMenuItem(new DefaultEditorKit.CopyAction());
@@ -429,7 +428,7 @@ public class UI extends JFrame implements ActionListener {
     }
 
     // Make the TextArea available to the autocomplete handler
-    protected JTextArea getEditor() {
+    protected JTextPane getEditor() {
         return textArea;
     }
 
@@ -514,9 +513,12 @@ public class UI extends JFrame implements ActionListener {
                     File openFile = open.getSelectedFile();
                     setTitle(openFile.getName() + " | " + SimpleJavaTextEditor.NAME);
                     Scanner scan = new Scanner(new FileReader(openFile.getPath()));
+		    StringBuilder contents = new StringBuilder();
                     while (scan.hasNext()) {
-                        textArea.append(scan.nextLine() + "\n");
+                        contents.append(scan.nextLine());
+			contents.append('\n');
                     }
+		    textArea.setText(contents.toString());
 
                     enableAutoComplete(openFile);
                 } catch (Exception ex) { // catch any exceptions, and...
@@ -549,7 +551,7 @@ public class UI extends JFrame implements ActionListener {
             int n = JOptionPane.showOptionDialog(this, "Are you sure to clear the text Area ?", "Question",
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             if (n == 0) {// clear
-                FEdit.clear(textArea);
+                UEdit.clear(textArea);
             }
         }
         // Find
@@ -571,7 +573,7 @@ public class UI extends JFrame implements ActionListener {
          */
         private static final long serialVersionUID = 1L;
 
-        public SelectAllAction(String text, ImageIcon icon, String desc, Integer mnemonic, final JTextArea textArea) {
+        public SelectAllAction(String text, ImageIcon icon, String desc, Integer mnemonic, final JTextPane textArea) {
             super(text, icon);
             putValue(SHORT_DESCRIPTION, desc);
             putValue(MNEMONIC_KEY, mnemonic);

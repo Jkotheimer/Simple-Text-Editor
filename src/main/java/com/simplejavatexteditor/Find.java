@@ -43,9 +43,9 @@ public class Find extends JFrame implements ActionListener {
     JLabel lab1, lab2;
     JTextField textF, textR;
     JButton findBtn, findNext, replace, replaceAll, cancel;
-    private JTextArea txt;
+    private JTextPane txt;
 
-    public Find(JTextArea text) {
+    public Find(JTextPane text) {
         this.txt = text;
 
         lab1 = new JLabel("Find:");
