@@ -7,33 +7,77 @@ import java.util.regex.*;
 
 public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
 
-    private Color color;
+    private Color primary_color, secondary_color, tertiary_color;
 
     public HighlightText(Color color) {
         super(color);
-	this.color = color;
+	primary_color = color;
+	secondary_color = color;
+	tertiary_color = color;
+    }
+
+    public HighlightText(Color primary_color, Color secondary_color) {
+        super(primary_color);
+	this.primary_color = primary_color;
+	this.secondary_color = secondary_color;
+	this.tertiary_color = secondary_color;
+    }
+
+    public HighlightText(Color primary_color, Color secondary_color, Color tertiary_color) {
+        super(primary_color);
+	this.primary_color = primary_color;
+	this.secondary_color = secondary_color;
+	this.tertiary_color = tertiary_color;
     }
 
     public void highlightSyntax(JTextPane textComp, String[] pattern) {
         removeHighlights(textComp);
         try {
             StyledDocument doc = textComp.getStyledDocument();
-	    SimpleAttributeSet attrs = new SimpleAttributeSet();
-	    StyleConstants.setForeground(attrs, color);
+
+	    SimpleAttributeSet black_attr = new SimpleAttributeSet();
+	    StyleConstants.setForeground(black_attr, Color.BLACK);
+	    doc.setCharacterAttributes(0, doc.getLength(), black_attr, true);
+	    
+	    SimpleAttributeSet primary_attr = new SimpleAttributeSet();
+	    StyleConstants.setForeground(primary_attr, primary_color);
 
             String text = doc.getText(0, doc.getLength());
-            for (int i = 0; i < pattern.length; i++) {
+            
+	    // Find any patterns in the given syntax list and color it with the primary color
+	    for (int i = 0; i < pattern.length; i++) {
                 int pos = 0;
-                String patternStr = "\\b" + pattern[i] + "\\b";
-                Matcher matcher = Pattern.compile(patternStr).matcher(text);
-                while(pos < text.length() && matcher.find(pos)) {
-		    pos = matcher.start();
-		    System.out.println("FOUND " + pattern[i] + " AT " + pos);
-		    doc.setCharacterAttributes(pos, pattern[i].length(), attrs, false);
+
+                Matcher regex = Pattern.compile("\\b" + pattern[i] + "\\b").matcher(text);
+		while(pos < text.length() && regex.find(pos)) {
+		    pos = regex.start();
+		    doc.setCharacterAttributes(pos, pattern[i].length(), primary_attr, false);
 		    pos += pattern[i].length();
                 }
             }
-	    System.out.println();
+
+	    // Find any strings within quotes and color them with the tertiary color
+	    // Find any digits and color them with the secondary color
+	    SimpleAttributeSet attr = new SimpleAttributeSet();
+            Matcher digit_regex = Pattern.compile("\\d").matcher(text);
+            Matcher string_regex = Pattern.compile("([\"'])(?:(?=(\\\\?))\\2.)*?\\1").matcher(text);
+	    int i = 0;
+	    while(i < text.length() && (digit_regex.find(i) || string_regex.find(i))) {
+	        String match = "0";
+                if(digit_regex.find(i)) {
+	            StyleConstants.setForeground(attr, secondary_color);
+		    match = digit_regex.group();
+		    i = digit_regex.start();
+		}
+		if(string_regex.find(i)) {
+	            StyleConstants.setForeground(attr, tertiary_color);
+		    match = string_regex.group();
+		    i = string_regex.start();
+		}
+                doc.setCharacterAttributes(i, match.length(), attr, false);
+		i += match.length();
+	    }
+
         } catch (BadLocationException e) {}
 
     }
