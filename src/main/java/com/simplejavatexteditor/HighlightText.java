@@ -13,18 +13,19 @@ public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
 	this.color = color;
     }
 
-    public void highLight(JTextPane textComp, String[] pattern) {
+    public void highlightSyntax(JTextPane textComp, String[] pattern) {
         removeHighlights(textComp);
-
         try {
-            //Highlighter hilite = textComp.getHighlighter();
-            Document doc = textComp.getDocument();
+            StyledDocument doc = textComp.getStyledDocument();
+	    SimpleAttributeSet attrs = new SimpleAttributeSet();
+	    StyleConstants.setForeground(attrs, color);
+
             String text = doc.getText(0, doc.getLength());
             for (int i = 0; i < pattern.length; i++) {
                 int pos = 0;
 
                 while ((pos = text.indexOf(pattern[i], pos)) >= 0) {
-                    //hilite.addHighlight(pos, pos + pattern[i].length(), this);
+		    doc.setCharacterAttributes(pos, pattern[i].length(), attrs, false);
 		    pos += pattern[i].length();
                 }
             }

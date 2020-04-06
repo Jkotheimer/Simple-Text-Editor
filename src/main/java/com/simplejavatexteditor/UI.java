@@ -141,8 +141,8 @@ public class UI extends JFrame implements ActionListener {
                         + "    Lines: " + (textArea.getText() + "|").split("\n").length
                         + "    Words: " + textArea.getText().trim().split("\\s+").length + " ]");
                 edit = true;
-                languageHighlighter.highLight(textArea, kw.getCppKeywords());
-                languageHighlighter.highLight(textArea, kw.getJavaKeywords());
+                languageHighlighter.highlightSyntax(textArea, kw.getCppKeywords());
+                languageHighlighter.highlightSyntax(textArea, kw.getJavaKeywords());
             }
         });
 
@@ -551,7 +551,7 @@ public class UI extends JFrame implements ActionListener {
             int n = JOptionPane.showOptionDialog(this, "Are you sure to clear the text Area ?", "Question",
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             if (n == 0) {// clear
-                UEdit.clear(textArea);
+                FEdit.clear(textArea);
             }
         }
         // Find
