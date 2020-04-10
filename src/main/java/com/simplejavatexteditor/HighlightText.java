@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
 
+	//Simple Constructor for HighlightText Object
     public HighlightText(Color color) {
         super(color);
     }
