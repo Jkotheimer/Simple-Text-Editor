@@ -34,6 +34,7 @@ package com.simplejavatexteditor;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.*;
 
 public class Find extends JFrame implements ActionListener {
 
@@ -111,6 +112,8 @@ public class Find extends JFrame implements ActionListener {
     }
 
     public void find() {
+        HighlightText high = new HighlightText(Color.CYAN);
+        String[] test = {textF.getText()};
         select_start = txt.getText().toLowerCase().indexOf(textF.getText().toLowerCase());
         if(select_start == -1)
         {
@@ -120,8 +123,10 @@ public class Find extends JFrame implements ActionListener {
         }
         if(select_start == txt.getText().toLowerCase().lastIndexOf(textF.getText().toLowerCase()))
         {
+            high.highLight(txt,test);
             startIndex = 0;
         }
+        high.highLight(txt,test);
         int select_end = select_start + textF.getText().length();
         txt.select(select_start, select_end);
     }
