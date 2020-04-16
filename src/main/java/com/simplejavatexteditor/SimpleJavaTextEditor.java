@@ -22,6 +22,7 @@ import javax.swing.JTextPane;
 
 public class SimpleJavaTextEditor extends JTextPane {
 
+    //Instance variables
     private static final long serialVersionUID = 1L;
     public final static String AUTHOR_EMAIL = "hi@ph7.me";
     public final static String NAME = "PHNotePad";
@@ -31,6 +32,8 @@ public class SimpleJavaTextEditor extends JTextPane {
     /**
      * @param args
      */
+
+    //Main method that passes in array of Strings and sets up User Interface.
     public static void main(String[] args) {
         new UI().setVisible(true);
     }
