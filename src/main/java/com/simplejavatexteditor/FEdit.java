@@ -22,7 +22,8 @@ import javax.swing.JTextArea;
 
 public class FEdit {
 
-	//Method that gives you a blank text editor to write on.
+	//Method that you pass in an area that displays text and gives 
+	//you a blank text editor to write on.
     public static void clear(JTextArea textArea) {
         textArea.setText("");
     }
