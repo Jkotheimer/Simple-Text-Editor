@@ -10,6 +10,8 @@ public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
         super(color);
     }
 
+    //Method that highlights a word by passing in a text component, that
+    //allows you to view the text, and the word you want to look for.
     public void highLight(JTextComponent textComp, String[] pattern) {
         removeHighlights(textComp);
 
@@ -29,6 +31,7 @@ public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
 
     }
 
+    //Method that removes highlights from document.
     public void removeHighlights(JTextComponent textComp) {
 
         Highlighter hilite = textComp.getHighlighter();
