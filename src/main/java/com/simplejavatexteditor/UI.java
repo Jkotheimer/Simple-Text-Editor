@@ -38,6 +38,7 @@
 package com.simplejavatexteditor;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -55,6 +56,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.text.DefaultEditorKit;
+import javax.swing.event.*;
 
 public class UI extends JFrame implements ActionListener {
 
@@ -127,6 +129,23 @@ public class UI extends JFrame implements ActionListener {
         textArea.setTabSize(2);
         textArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
         textArea.setTabSize(2);
+
+        textArea.addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                try {
+                    Document doc = textArea.getDocument();
+                    String text = doc.getText(0, doc.getLength());
+                    String selectedtext = text.substring(textArea.getSelectionStart(),textArea.getSelectionEnd());
+                    System.out.println(selectedtext);
+                    String[] selected = {selectedtext};
+                    HighlightText high = new HighlightText(Color.CYAN);
+                    if(textArea.getSelectionEnd() - textArea.getSelectionStart() > 1){
+                        high.highLight(textArea,selected);
+                    }
+                } catch (BadLocationException r) {}  
+            }
+        });
 
         /* SETTING BY DEFAULT WORD WRAP ENABLED OR TRUE */
         textArea.setLineWrap(true);
