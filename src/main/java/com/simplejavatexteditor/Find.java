@@ -44,9 +44,9 @@ public class Find extends JFrame implements ActionListener {
     JLabel lab1, lab2;
     JTextField textF, textR;
     JButton findBtn, findNext, replace, replaceAll, cancel;
-    private JTextArea txt;
+    private JTextPane txt;
 
-    public Find(JTextArea text) {
+    public Find(JTextPane text) {
         this.txt = text;
 
         lab1 = new JLabel("Find:");
@@ -123,10 +123,10 @@ public class Find extends JFrame implements ActionListener {
         }
         if(select_start == txt.getText().toLowerCase().lastIndexOf(textF.getText().toLowerCase()))
         {
-            high.highLight(txt,test);
+            high.highlight(txt,test);
             startIndex = 0;
         }
-        high.highLight(txt,test);
+        high.highlight(txt,test);
         int select_end = select_start + textF.getText().length();
         txt.select(select_start, select_end);
     }

@@ -18,13 +18,13 @@
 
 package com.simplejavatexteditor;
 
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 public class FEdit {
 
 	//Method that you pass in an area that displays text and gives 
 	//you a blank text editor to write on.
-    public static void clear(JTextArea textArea) {
+    public static void clear(JTextPane textArea) {
         textArea.setText("");
     }
 

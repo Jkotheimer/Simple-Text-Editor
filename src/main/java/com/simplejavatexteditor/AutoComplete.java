@@ -8,7 +8,7 @@ import java.util.Collections;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
@@ -53,7 +53,7 @@ public class AutoComplete
 
     private final UI ui;
     private Mode mode = Mode.INSERT;
-    private final JTextArea textArea;
+    private final JTextPane textArea;
     private static final String COMMIT_ACTION = "commit";
     private boolean isKeyword;
     private int pos;
@@ -192,7 +192,10 @@ public class AutoComplete
 
         @Override
         public void run() {
-            textArea.insert(completion, position);
+	    textArea.select(position, position + completion.length());
+            textArea.replaceSelection(completion);
+	    textArea.select(position, position + completion.length());
+
 
             textArea.setCaretPosition(position + completion.length());
             textArea.moveCaretPosition(position);
@@ -218,7 +221,8 @@ public class AutoComplete
                 int pos = textArea.getSelectionEnd();
 
                 if (isKeyword) {
-                    textArea.insert(" ", pos);
+                    textArea.setCaretPosition(pos);
+		    textArea.replaceSelection(" ");
                     textArea.setCaretPosition(pos + 1);
                     mode = Mode.INSERT;
                 }
@@ -242,7 +246,8 @@ public class AutoComplete
             String keyEvent = String.valueOf(e.getKeyChar());
             for (String bracketCompletion : bracketCompletions) {
                 if (keyEvent.equals(bracketCompletion)) {
-                    textArea.replaceRange("", pos, pos + 1);
+		    textArea.select(pos, pos + 1);
+                    textArea.replaceSelection("");
                     mode = Mode.INSERT;
                     textArea.removeKeyListener(this);
                 }
@@ -250,7 +255,8 @@ public class AutoComplete
             int currentPosition = textArea.getCaretPosition();
             switch (e.getKeyChar()) {
                 case '\n':
-                    textArea.insert("\n\n", currentPosition);
+		    textArea.setCaretPosition(currentPosition);
+                    textArea.replaceSelection("\n\n");
                     textArea.setCaretPosition(currentPosition + 1);
                     mode = Mode.INSERT;
                     textArea.removeKeyListener(this);

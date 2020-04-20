@@ -62,7 +62,7 @@ public class UI extends JFrame implements ActionListener {
 
     private final String[] dragDropExtensionFilter = {".txt", ".dat", ".log", ".xml", ".mf", ".html"};
     private static long serialVersionUID = 1L;
-    private final JTextArea textArea;
+    private final JTextPane textArea;
     private final JMenuBar menuBar;
     private final JComboBox fontSize, fontType;
     private final JMenu menuFile, menuEdit, menuFind, menuAbout;
@@ -98,7 +98,7 @@ public class UI extends JFrame implements ActionListener {
     private final ImageIcon aboutIcon = new ImageIcon("icons/about.png");
 
     private SupportedKeywords kw = new SupportedKeywords();
-    private HighlightText languageHighlighter = new HighlightText(Color.GRAY);
+    private HighlightText languageHighlighter = new HighlightText(Color.RED, Color.BLUE, Color.GRAY);
     AutoComplete autocomplete;
     private boolean hasListener = false;
     private boolean edit = false;
@@ -123,12 +123,11 @@ public class UI extends JFrame implements ActionListener {
         // center the frame on the monitor
         setLocationRelativeTo(null);
 
-        // Set a default font for the TextArea
-        textArea = new JTextArea("", 0, 0);
+        // Set a default font and tab size for the TextArea
+	DefaultStyledDocument document = new DefaultStyledDocument();
+        textArea = new JTextPane(document);
         textArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-        textArea.setTabSize(2);
-        textArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-        textArea.setTabSize(2);
+	document.putProperty(PlainDocument.tabSizeAttribute, new Integer(2));
 
         textArea.addCaretListener(new CaretListener() {
             @Override
@@ -141,14 +140,14 @@ public class UI extends JFrame implements ActionListener {
                     String[] selected = {selectedtext};
                     HighlightText high = new HighlightText(Color.CYAN);
                     if(textArea.getSelectionEnd() - textArea.getSelectionStart() > 1){
-                        high.highLight(textArea,selected);
+                        high.highlight(textArea,selected);
                     }
                 } catch (BadLocationException r) {}  
             }
         });
 
         /* SETTING BY DEFAULT WORD WRAP ENABLED OR TRUE */
-        textArea.setLineWrap(true);
+        //textArea.setLineWrap(true);
         DropTarget dropTarget = new DropTarget(textArea, dropTargetListener);
 
         // Set an higlighter to the JTextArea
@@ -159,18 +158,14 @@ public class UI extends JFrame implements ActionListener {
                 setTitle("Untitled | " + SimpleJavaTextEditor.NAME + "     [ Length: " + textArea.getText().length()
                         + "    Lines: " + (textArea.getText() + "|").split("\n").length
                         + "    Words: " + textArea.getText().trim().split("\\s+").length + " ]");
-            }
-
-            @Override
-            public void keyPressed(KeyEvent ke) {
                 edit = true;
-                languageHighlighter.highLight(textArea, kw.getCppKeywords());
-                languageHighlighter.highLight(textArea, kw.getJavaKeywords());
+                languageHighlighter.highlightSyntax(textArea, kw.getCppKeywords());
+                languageHighlighter.highlightSyntax(textArea, kw.getJavaKeywords());
             }
         });
 
         JScrollPane scrollPane = new JScrollPane(textArea);
-        textArea.setWrapStyleWord(true);
+        //textArea.setWrapStyleWord(true);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         getContentPane().setLayout(new BorderLayout()); // the BorderLayout bit makes it fill it automatically
         JPanel panel = new JPanel(new BorderLayout());
@@ -204,8 +199,7 @@ public class UI extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
 
         // Set Actions:
-        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A),
-                textArea);
+        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A), textArea);
 
         this.setJMenuBar(menuBar);
 
@@ -270,20 +264,20 @@ public class UI extends JFrame implements ActionListener {
 
         /* CODE FOR WORD WRAP OPERATION
          * BY DEFAULT WORD WRAPPING IS ENABLED.
-         */
+         *
         wordWrap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 // If wrapping is false then after clicking on menuitem the word wrapping will be enabled
                 if (textArea.getLineWrap() == false) {
-                    /* Setting word wrapping to true */
+                    /* Setting word wrapping to true *
                     textArea.setLineWrap(true);
                 } else {
                     // else  if wrapping is true then after clicking on menuitem the word wrapping will be disabled
-                    /* Setting word wrapping to false */
+                    /* Setting word wrapping to false *
                     textArea.setLineWrap(false);
                 }
             }
-        });
+        });*/
 
         // Copy Text
         copy = new JMenuItem(new DefaultEditorKit.CopyAction());
@@ -452,7 +446,7 @@ public class UI extends JFrame implements ActionListener {
     }
 
     // Make the TextArea available to the autocomplete handler
-    protected JTextArea getEditor() {
+    protected JTextPane getEditor() {
         return textArea;
     }
 
@@ -537,9 +531,12 @@ public class UI extends JFrame implements ActionListener {
                     File openFile = open.getSelectedFile();
                     setTitle(openFile.getName() + " | " + SimpleJavaTextEditor.NAME);
                     Scanner scan = new Scanner(new FileReader(openFile.getPath()));
+		    StringBuilder contents = new StringBuilder();
                     while (scan.hasNext()) {
-                        textArea.append(scan.nextLine() + "\n");
+                        contents.append(scan.nextLine());
+			contents.append('\n');
                     }
+		    textArea.setText(contents.toString());
 
                     enableAutoComplete(openFile);
                 } catch (Exception ex) { // catch any exceptions, and...
@@ -594,7 +591,7 @@ public class UI extends JFrame implements ActionListener {
          */
         private static final long serialVersionUID = 1L;
 
-        public SelectAllAction(String text, ImageIcon icon, String desc, Integer mnemonic, final JTextArea textArea) {
+        public SelectAllAction(String text, ImageIcon icon, String desc, Integer mnemonic, final JTextPane textArea) {
             super(text, icon);
             putValue(SHORT_DESCRIPTION, desc);
             putValue(MNEMONIC_KEY, mnemonic);
