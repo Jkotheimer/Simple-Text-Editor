@@ -73,10 +73,8 @@ public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
 			while(i < text.length()) {
 				if(!d && !s) break;
 				if(d) {
-                    System.out.print(i + " : ");
 					i = digit_regex.end();
 					doc.setCharacterAttributes(digit_regex.start(), i - digit_regex.start(), sattr, false);
-                    System.out.println(i + " : " + digit_regex.group());
 				}
 				if(s) {
 					i = string_regex.end();
