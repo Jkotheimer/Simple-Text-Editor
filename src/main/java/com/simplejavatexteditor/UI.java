@@ -136,7 +136,6 @@ public class UI extends JFrame implements ActionListener {
                     Document doc = textArea.getDocument();
                     String text = doc.getText(0, doc.getLength());
                     String selectedtext = text.substring(textArea.getSelectionStart(),textArea.getSelectionEnd());
-                    System.out.println(selectedtext);
                     String[] selected = {selectedtext};
                     HighlightText high = new HighlightText(Color.CYAN);
                     if(textArea.getSelectionEnd() - textArea.getSelectionStart() > 1){

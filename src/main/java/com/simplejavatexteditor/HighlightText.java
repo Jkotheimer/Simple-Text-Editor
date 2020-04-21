@@ -37,49 +37,54 @@ public class HighlightText extends DefaultHighlighter.DefaultHighlightPainter{
 		try {
 			StyledDocument doc = textComp.getStyledDocument();
 
-		SimpleAttributeSet black_attr = new SimpleAttributeSet();
-		StyleConstants.setForeground(black_attr, Color.BLACK);
-		doc.setCharacterAttributes(0, doc.getLength(), black_attr, true);
+			SimpleAttributeSet black_attr = new SimpleAttributeSet();
+			StyleConstants.setForeground(black_attr, Color.BLACK);
+			doc.setCharacterAttributes(0, doc.getLength(), black_attr, true);
 		
-		SimpleAttributeSet primary_attr = new SimpleAttributeSet();
-		StyleConstants.setForeground(primary_attr, primary_color);
+			SimpleAttributeSet primary_attr = new SimpleAttributeSet();
+			StyleConstants.setForeground(primary_attr, primary_color);
 
 			String text = doc.getText(0, doc.getLength());
 			
-		// Find any patterns in the given syntax list and color it with the primary color
-		for (int i = 0; i < pattern.length; i++) {
+			// Find any patterns in the given syntax list and color it with the primary color
+			for (int i = 0; i < pattern.length; i++) {
 				int pos = 0;
 
 				Matcher regex = Pattern.compile("\\b" + pattern[i] + "\\b").matcher(text);
-		while(pos < text.length() && regex.find(pos)) {
-			pos = regex.start();
-			doc.setCharacterAttributes(pos, pattern[i].length(), primary_attr, false);
-			pos += pattern[i].length();
+				while(pos < text.length() && regex.find(pos)) {
+					pos = regex.start();
+					doc.setCharacterAttributes(pos, pattern[i].length(), primary_attr, false);
+					pos += pattern[i].length();
 				}
 			}
 
-		// Find any strings within quotes and color them with the tertiary color
-		// Find any digits and color them with the secondary color
-		SimpleAttributeSet attr = new SimpleAttributeSet();
-			Matcher digit_regex = Pattern.compile("\\d").matcher(text);
-			Matcher string_regex = Pattern.compile("([\"'])(?:(?=(\\\\?))\\2.)*?\\1").matcher(text);
-		int i = 0;
-		while(i < text.length() && (digit_regex.find(i) || string_regex.find(i))) {
-			String match = "0";
-				if(digit_regex.find(i)) {
-				StyleConstants.setForeground(attr, secondary_color);
-			match = digit_regex.group();
-			i = digit_regex.start();
-		}
-		if(string_regex.find(i)) {
-				StyleConstants.setForeground(attr, tertiary_color);
-			match = string_regex.group();
-			i = string_regex.start();
-		}
-				doc.setCharacterAttributes(i, match.length(), attr, false);
-		i += match.length();
-		}
+			// Find any strings within quotes and color them with the tertiary color
+			// Find any digits and color them with the secondary color
+			SimpleAttributeSet sattr = new SimpleAttributeSet();
+			SimpleAttributeSet tattr = new SimpleAttributeSet();
+			StyleConstants.setForeground(sattr, secondary_color);
+			StyleConstants.setForeground(tattr, tertiary_color);
 
+			Matcher digit_regex = Pattern.compile("\\d+").matcher(text);
+			Matcher string_regex = Pattern.compile("([\"'])(?:(?=(\\\\?))\\2.)*?\\1").matcher(text);
+			int i = 0;
+			boolean d = digit_regex.find();
+			boolean s = string_regex.find();
+			while(i < text.length()) {
+				if(!d && !s) break;
+				if(d) {
+                    System.out.print(i + " : ");
+					i = digit_regex.end();
+					doc.setCharacterAttributes(digit_regex.start(), i - digit_regex.start(), sattr, false);
+                    System.out.println(i + " : " + digit_regex.group());
+				}
+				if(s) {
+					i = string_regex.end();
+					doc.setCharacterAttributes(string_regex.start(), i - string_regex.start(), tattr, false);
+				}
+				d = digit_regex.find();
+				s = string_regex.find();
+			}
 		} catch (BadLocationException e) {}
 
 	}
