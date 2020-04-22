@@ -36,7 +36,7 @@ import javax.swing.text.BadLocationException;
  * @since 2016-12-03
  */
 
-//DocumentListener helps register to receive notifications of changes to a text document.
+//DocumentListener helps register to receive notifications of changes to a text document
 public class AutoComplete
         implements DocumentListener {
 

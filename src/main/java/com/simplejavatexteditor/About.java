@@ -39,11 +39,13 @@ public class About {
     private final JLabel text;
 
     //Setting up UI
-    //JPanel represents some area in which controls (e.g. buttons or textfield)
-    //and visuals (e.g. pictures and text) can appear.
-    //JFrame represents a framed window.
+    //JPanel represents some area in which controls (e.g. buttons or textfields)
+    //and visuals (e.g. pictures and text) can show up.
+    //JFrame represents a framed window
     //WindowListener defines methods that handle most window events
-    // (e.g. the events for opening and closing the window)
+    //(e.g. the events for opening and closing the window)
+
+
     public About(UI ui) {
         panel = new JPanel(new FlowLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
@@ -64,7 +66,7 @@ public class About {
         text = new JLabel();
     }
 
-    //Setting title for me.
+    //Setting title for me
     public void me() {
         frame.setTitle("About Me - " + SimpleJavaTextEditor.NAME);
 
@@ -83,7 +85,7 @@ public class About {
         frame.add(panel);
     }
 
-    //Setting tittle for software.
+    //Setting tittle for software
     public void software() {
         frame.setTitle("About Me - " + SimpleJavaTextEditor.NAME);
 

@@ -37,7 +37,7 @@ import java.awt.event.ActionEvent;
 import java.awt.*;
 
 //ActionListener is responsible for handling all action events
-//(e.g. when the user clicks on a component)
+//(e.g. when the user clicks on a component).
 public class Find extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;

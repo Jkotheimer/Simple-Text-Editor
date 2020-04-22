@@ -320,63 +320,63 @@ public class UI extends JFrame implements ActionListener {
         mainToolbar.add(newButton);
         mainToolbar.addSeparator();
 
-        //Open button added
+        //Open button added.
         openButton = new JButton(openIcon);
         openButton.setToolTipText("Open");
         openButton.addActionListener(this);
         mainToolbar.add(openButton);
         mainToolbar.addSeparator();
 
-        //Save button added
+        //Save button added.
         saveButton = new JButton(saveIcon);
         saveButton.setToolTipText("Save");
         saveButton.addActionListener(this);
         mainToolbar.add(saveButton);
         mainToolbar.addSeparator();
 
-        //Clear button added
+        //Clear button added.
         clearButton = new JButton(clearIcon);
         clearButton.setToolTipText("Clear All");
         clearButton.addActionListener(this);
         mainToolbar.add(clearButton);
         mainToolbar.addSeparator();
 
-        //Quick Search button added
+        //Quick Search button added.
         quickButton = new JButton(searchIcon);
         quickButton.setToolTipText("Quick Search");
         quickButton.addActionListener(this);
         mainToolbar.add(quickButton);
         mainToolbar.addSeparator();
 
-        //About Me button added
+        //About Me button added.
         aboutMeButton = new JButton(aboutMeIcon);
         aboutMeButton.setToolTipText("About Me");
         aboutMeButton.addActionListener(this);
         mainToolbar.add(aboutMeButton);
         mainToolbar.addSeparator();
 
-        //About NotePad PH button added
+        //About NotePad PH button added.
         aboutButton = new JButton(aboutIcon);
         aboutButton.setToolTipText("About NotePad PH");
         aboutButton.addActionListener(this);
         mainToolbar.add(aboutButton);
         mainToolbar.addSeparator();
 
-        //Quit button added
+        //Quit button added.
         closeButton = new JButton(closeIcon);
         closeButton.setToolTipText("Quit");
         closeButton.addActionListener(this);
         mainToolbar.add(closeButton);
         mainToolbar.addSeparator();
 
-        //Bold button added for text
+        //Bold button added for text.
         boldButton = new JButton(boldIcon);
         boldButton.setToolTipText("Bold");
         boldButton.addActionListener(this);
         mainToolbar.add(boldButton);
         mainToolbar.addSeparator();
 
-        //Italic button added for text
+        //Italic button added for text.
         italicButton = new JButton(italicIcon);
         italicButton.setToolTipText("Italic");
         italicButton.addActionListener(this);
