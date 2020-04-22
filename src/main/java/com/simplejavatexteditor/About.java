@@ -38,6 +38,9 @@ public class About {
     private String contentText;
     private final JLabel text;
 
+    //Setting up UI
+    //JPanel
+    //JFrame 
     public About(UI ui) {
         panel = new JPanel(new FlowLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
