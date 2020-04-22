@@ -58,6 +58,8 @@ import java.util.Scanner;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.event.*;
 
+//ActionListener is responsible for handling all action events
+//(e.g. when the user clicks on a component)
 public class UI extends JFrame implements ActionListener {
 
     private final String[] dragDropExtensionFilter = {".txt", ".dat", ".log", ".xml", ".mf", ".html"};
@@ -318,54 +320,63 @@ public class UI extends JFrame implements ActionListener {
         mainToolbar.add(newButton);
         mainToolbar.addSeparator();
 
+        //Open button added
         openButton = new JButton(openIcon);
         openButton.setToolTipText("Open");
         openButton.addActionListener(this);
         mainToolbar.add(openButton);
         mainToolbar.addSeparator();
 
+        //Save button added
         saveButton = new JButton(saveIcon);
         saveButton.setToolTipText("Save");
         saveButton.addActionListener(this);
         mainToolbar.add(saveButton);
         mainToolbar.addSeparator();
 
+        //Clear button added
         clearButton = new JButton(clearIcon);
         clearButton.setToolTipText("Clear All");
         clearButton.addActionListener(this);
         mainToolbar.add(clearButton);
         mainToolbar.addSeparator();
 
+        //Quick Search button added
         quickButton = new JButton(searchIcon);
         quickButton.setToolTipText("Quick Search");
         quickButton.addActionListener(this);
         mainToolbar.add(quickButton);
         mainToolbar.addSeparator();
 
+        //About Me button added
         aboutMeButton = new JButton(aboutMeIcon);
         aboutMeButton.setToolTipText("About Me");
         aboutMeButton.addActionListener(this);
         mainToolbar.add(aboutMeButton);
         mainToolbar.addSeparator();
 
+        //About NotePad PH button added
         aboutButton = new JButton(aboutIcon);
         aboutButton.setToolTipText("About NotePad PH");
         aboutButton.addActionListener(this);
         mainToolbar.add(aboutButton);
         mainToolbar.addSeparator();
 
+        //Quit button added
         closeButton = new JButton(closeIcon);
         closeButton.setToolTipText("Quit");
         closeButton.addActionListener(this);
         mainToolbar.add(closeButton);
         mainToolbar.addSeparator();
 
+        //Bold button added for text
         boldButton = new JButton(boldIcon);
         boldButton.setToolTipText("Bold");
         boldButton.addActionListener(this);
         mainToolbar.add(boldButton);
         mainToolbar.addSeparator();
 
+        //Italic button added for text
         italicButton = new JButton(italicIcon);
         italicButton.setToolTipText("Italic");
         italicButton.addActionListener(this);
@@ -402,13 +413,14 @@ public class UI extends JFrame implements ActionListener {
         });
 
         //FONT FAMILY SETTINGS SECTION END
+
         //FONT SIZE SETTINGS START
         fontSize = new JComboBox();
 
         for (int i = 5; i <= 100; i++) {
             fontSize.addItem(i);
         }
-        fontSize.setMaximumSize(new Dimension(70, 30));
+        fontSize.setMaximumSize(new Dimension(70, 30)); //setting up max size for font
         fontSize.setToolTipText("Font Size");
         mainToolbar.add(fontSize);
 

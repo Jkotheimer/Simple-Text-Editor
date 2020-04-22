@@ -36,6 +36,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.*;
 
+//ActionListener is responsible for handling all action events
+//(e.g. when the user clicks on a component)
 public class Find extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +48,7 @@ public class Find extends JFrame implements ActionListener {
     JButton findBtn, findNext, replace, replaceAll, cancel;
     private JTextPane txt;
 
+    //Setting Find to look for text and have it replaced.
     public Find(JTextPane text) {
         this.txt = text;
 
@@ -66,7 +69,7 @@ public class Find extends JFrame implements ActionListener {
         int labWidth = 80;
         int labHeight = 20;
 
-        // Adding labels
+        // Adding labels and setting their bound.
         lab1.setBounds(10,10, labWidth, labHeight);
         add(lab1);
         textF.setBounds(10+labWidth, 10, 120, 20);
@@ -111,6 +114,7 @@ public class Find extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    //Setting Find to highlight text
     public void find() {
         HighlightText high = new HighlightText(Color.CYAN);
         String[] test = {textF.getText()};
@@ -131,6 +135,7 @@ public class Find extends JFrame implements ActionListener {
         txt.select(select_start, select_end);
     }
 
+    //Setting code to find the next selection.
     public void findNext() {
         String selection = txt.getSelectedText();
         try
@@ -166,6 +171,7 @@ public class Find extends JFrame implements ActionListener {
         {}
     }
 
+    //Setting code to replace the selection.
     public void replace() {
         try
         {
@@ -179,10 +185,12 @@ public class Find extends JFrame implements ActionListener {
         }
     }
 
+    //Setting code to replace all.
     public void replaceAll() {
         txt.setText(txt.getText().toLowerCase().replaceAll(textF.getText().toLowerCase(), textR.getText()));
     }
 
+    //Setting up loop to find a slection and have it replaced.
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == findBtn)
         {
